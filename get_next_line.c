@@ -6,7 +6,7 @@
 */
 
 #include <unistd.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "get_next_line.h"
 
 int my_strlen(char *str)

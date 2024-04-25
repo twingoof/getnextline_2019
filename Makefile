@@ -19,9 +19,9 @@ OBJTESTS	=	$(TESTS:%.c=%.o)
 
 CC			=	gcc
 
-CFLAGS		=	-W -Wextra -Wshadow -Wall -I . 
+CFLAGS		=	-W -Wextra -Wshadow -Wall -I . -I /opt/homebrew/include 
 
-LDFLAGS		=	-lcriterion -lgcov
+LDFLAGS		=	-L/opt/homebrew/lib -lcriterion
 
 all:		$(NAME)
 
@@ -45,9 +45,12 @@ fclean:		clean
 
 re:			fclean all
 
-tests_run:	CFLAGS += --coverage
+tests_run:	CFLAGS += --coverage 
 tests_run:	fclean $(OBJTESTS)
-		$(CC) -o unit_tests $(OBJTESTS) $(LDFLAGS)
+		$(CC) $(CFLAGS) $(OBJTESTS) -o unit_tests $(LDFLAGS)
 		./unit_tests
+
+coverage:
+	gcovr --html --output coverage.html
 
 .PHONY: all debug clean fclean re tests_run
